@@ -8,26 +8,26 @@
 
 
     <ImageView
-        android:id="@+id/imageAPI"
+        android:id="@+id/characterImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:scaleType="center"
-        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintBottom_toTopOf="@+id/character_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_launcher_background"/>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/character_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/character_name"
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageAPI"
+        app:layout_constraintTop_toBottomOf="@id/characterImage"
         app:layout_constraintBottom_toTopOf="@id/description"
         app:layout_constraintVertical_bias="0.37" />
 
@@ -35,18 +35,18 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/character_description"
         android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="@id/name"
-        app:layout_constraintEnd_toEndOf="@id/name"
-        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/character_name"
+        app:layout_constraintEnd_toEndOf="@id/character_name"
+        app:layout_constraintTop_toBottomOf="@id/character_name"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/find_new_character"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description"
