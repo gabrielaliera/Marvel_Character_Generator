@@ -3,12 +3,16 @@ package com.example.star_wars
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import com.example.star_wars.databinding.ActivityMainBinding
 import okhttp3.Headers
 import java.math.BigInteger
 import java.security.MessageDigest
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,11 +26,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //getCharacterName()
-        getCharacterImageURL()
+       // val button = binding.button
+      // val imageView = binding.characterImage
+
+        val button = findViewById<Button>(R.id.button)
+        val imageView = findViewById<ImageView>(R.id.characterImage)
+
+      // getCharacterName()
+      //  getCharacterImageURL()
+        getNextImage(button, imageView)
     }
 
-    private fun getCharacterName(){
+    private fun getCharacterName(randomNum: Int){
 
         val timestamp = System.currentTimeMillis()
         val privateKey = getString(R.string.private_key_api_marval)
@@ -36,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("Marvel Hash", "successful-$hash")
 
         val url =
-            "https://gateway.marvel.com/v1/public/characters?limit=1&ts=$timestamp&apikey=$publicKey&hash=$hash"
+            "https://gateway.marvel.com/v1/public/characters?limit=1&offset=$randomNum&ts=$timestamp&apikey=$publicKey&hash=$hash"
 
         val client = AsyncHttpClient()
 
@@ -72,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }]
     }
 
-    private fun getCharacterImageURL(){
+    private fun getCharacterImageURL(randomNum: Int){
 
         val timestamp = System.currentTimeMillis()
         val privateKey = getString(R.string.private_key_api_marval)
@@ -82,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("marvelHash", "succeshuL-$hash")
 
         val url =
-            "https://gateway.marvel.com/v1/public/characters?limit=1&ts=$timestamp&apikey=$publicKey&hash=$hash"
+            "https://gateway.marvel.com/v1/public/characters?limit=1&offset=$randomNum&ts=$timestamp&apikey=$publicKey&hash=$hash"
 
         val client = AsyncHttpClient()
 
@@ -112,7 +123,9 @@ class MainActivity : AppCompatActivity() {
                 val imageExtension = characterImageObject.getString("extension")
 
                 characterImageURL = "$path.$imageExtension"
-                Log.d("Marvel image", "Marvel image $characterImageURL")
+
+                characterImageURL = characterImageURL.replace("http:", "https:")
+                Log.d("Marvel replace image", "Marvel image $characterImageURL")
 
 
             }
@@ -127,6 +140,23 @@ class MainActivity : AppCompatActivity() {
             }
         }]
     }
+
+    private fun getNextImage(button: Button, imageView: ImageView){
+
+        button.setOnClickListener{
+            val randomNum = Random.nextInt(1000)
+            Log.d("Marvel Num", "random $randomNum")
+
+            getCharacterName(randomNum)
+            getCharacterImageURL(randomNum)
+
+            Glide.with(this)
+                . load(characterImageURL)
+                .fitCenter()
+                .into(imageView)
+        }
+    }
+
     private fun stringToMd5(input : String) : String{
         val md = MessageDigest.getInstance("MD5")
         return BigInteger(1, md.digest(input.toByteArray())).toString(16).padStart(32, '0')
