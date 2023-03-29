@@ -9,15 +9,16 @@
 
     <ImageView
         android:id="@+id/characterImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_marginTop="25dp"
-        android:scaleType="center"
         app:layout_constraintBottom_toTopOf="@+id/character_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/marvel_unsplash"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"/>
 
     <TextView
         android:id="@+id/character_name"
