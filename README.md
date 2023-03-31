@@ -2,7 +2,7 @@
 
 Submitted by: **Gabriela Liera**
 
-Time spent: *18** hours spent in total
+Time spent: **18** hours spent in total
 
 ## Summary
 
@@ -42,7 +42,7 @@ GIF created with **your chosen GIF tool**
 
 ## Notes
 
-Here's a place for any other notes on the app, it's creation process, or what you learned this unit!
+Throughout this lab, I acquired the skills to effectively select an API and comprehend its documentation to grasp its capabilities and integrate it into my project. I demonstrated the ability to examine and parse the JSON response from the API and then present various fields from the response in a visually appealing format. Additionally, I implemented a search query that enables users to search for characters that begin with the input they provide. Lastly, I constructed a user-friendly UI that allows users to enter the search parameters by creating input fields and a search button. While facing a few bugs, I utilized Logcat to tag debug statements to comprehend the data flow and JSON response parsing process. In summary, I acquired knowledge of the complete process, which includes selecting an API, comprehending its documentation, parsing the JSON response, extracting data, adding a query to the API request, and building a UI for users to specify query parameters.
 
 ## License
 
