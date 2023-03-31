@@ -32,51 +32,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val button = binding.button
-        val imageView = binding.characterImage
-
-
-       button.setOnClickListener{
-           getNextImage(button, imageView)
-       }
-
         val searchButton = binding.searchButton
-        searchButton.setOnClickListener {
-            val userInput = binding.searchText.getText().toString()
-            Log.d("Marvel","User string $userInput")
-            getCharacterQuery(userInput)
-            getQueryImage()
-        }
-    }
-
-    private fun getQueryImage() {
-
         val imageView = binding.characterImage
+        var userInput = binding.searchText.getText().toString()
 
-        Glide.with(this)
-            .load(characterImageURL)
-            .fitCenter()
-            .into(imageView)
-        Log.d("Marvel", "MArvel after glide $characterImageURL")
+       Log.d("Marvel USER" , "userImput $userInput")
 
-        binding.characterName.text = marvelName
-        binding.description.text = marvelDescription
+       getCharacterInfo()
+       getNextImage(button, imageView)
 
-        //Set name and description
-        binding.characterName.text = marvelName
-        if(marvelDescription == ""){
-            marvelDescription = "No Available Description"
-        }
-        binding.description.text = marvelDescription
+       getCharacterQuery()
+       getNextQuery(searchButton, imageView)
+
     }
 
-    private fun getCharacterInfo(randomNum: Int){
+    private fun getCharacterInfo(){
 
         val timestamp = System.currentTimeMillis()
         val privateKey = getString(R.string.private_key_api_marval)
         val publicKey = getString(R.string.public_key_api_marval)
         val hash = stringToMd5("$timestamp$privateKey$publicKey")
-
         Log.d("Marvel Hash", "successful-$hash")
+
+        val randomNum = Random.nextInt(1000)
+        Log.d("Marvel Num", "random $randomNum")
 
         val url = "https://gateway.marvel.com/v1/public/characters?limit=1&offset=$randomNum&ts=$timestamp&apikey=$publicKey&hash=$hash"
 
@@ -106,8 +85,6 @@ class MainActivity : AppCompatActivity() {
                 marvelDescription = resultIndex0.optString("description")
                 Log.d("Marvel Descript", "Marvel $marvelDescription")
 
-
-
                 //Get Image
                 val characterImageObject = resultIndex0.getJSONObject("thumbnail")
                 val path = characterImageObject.getString("path")
@@ -118,9 +95,6 @@ class MainActivity : AppCompatActivity() {
 
                 characterImageURL = characterImageURL.replace("http:", "https:")
                 Log.d("Marvel replace image", "Marvel image $characterImageURL")
-
-
-
             }
 
             override fun onFailure(
@@ -134,68 +108,11 @@ class MainActivity : AppCompatActivity() {
         }]
     }
 
-    private fun getCharacterImageURL(randomNum: Int){
-
-        val timestamp = System.currentTimeMillis()
-        val privateKey = getString(R.string.private_key_api_marval)
-        val publicKey = getString(R.string.public_key_api_marval)
-        val hash = stringToMd5("$timestamp$privateKey$publicKey")
-
-        Log.d("marvelHash", "succeshuL-$hash")
-
-        val url =
-            "https://gateway.marvel.com/v1/public/characters?limit=1&offset=$randomNum&ts=$timestamp&apikey=$publicKey&hash=$hash"
-
-        val client = AsyncHttpClient()
-
-        client[url, object : JsonHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Headers,
-                json: JsonHttpResponseHandler.JSON
-            ) {
-                Log.d("Marvel JSON", "response successful $json")
-
-                val dataObject = json.jsonObject.getJSONObject("data")
-                Log.d("Marvel Data Object", "Marvel data $dataObject")
-
-                val results = dataObject.getJSONArray("results")
-                Log.d("Marvel results array", "Marvel results array $results")
-
-                val resultIndex0 = results.getJSONObject(0)
-
-
-                val characterImageObject = resultIndex0.getJSONObject("thumbnail")
-                val path = characterImageObject.getString("path")
-                Log.d("Marvel path", "Marvel thumb $path")
-                val imageExtension = characterImageObject.getString("extension")
-
-                characterImageURL = "$path.$imageExtension"
-
-                characterImageURL = characterImageURL.replace("http:", "https:")
-                Log.d("Marvel replace image", "Marvel image $characterImageURL")
-
-
-            }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                errorResponse: String,
-                throwable: Throwable?
-            ) {
-                Log.d("Marvel Error", errorResponse)
-            }
-        }]
-    }
-
     private fun getNextImage(button: Button, imageView: ImageView){
 
+        button.setOnClickListener {
 
-            val randomNum = Random.nextInt(1000)
-            Log.d("Marvel Num", "random $randomNum")
-
-            getCharacterInfo(randomNum)
+            getCharacterInfo()
 
             Log.d("Marvel", "MArvel before glide $characterImageURL")
 
@@ -210,24 +127,23 @@ class MainActivity : AppCompatActivity() {
 
             //Set name and description
             binding.characterName.text = marvelName
-            if(marvelDescription == ""){
+            if (marvelDescription == "") {
                 marvelDescription = "No Available Description"
             }
             binding.description.text = marvelDescription
-
+        }
 
     }
 
-    private fun getCharacterQuery(userInput : String){
+    private fun getCharacterQuery(){
+
         val timestamp = System.currentTimeMillis()
         val privateKey = getString(R.string.private_key_api_marval)
         val publicKey = getString(R.string.public_key_api_marval)
         val hash = stringToMd5("$timestamp$privateKey$publicKey")
-      //  val randomNum = Random.nextInt(1000)
-
-       // Log.d("Marvel Num", "random $randomNum")
-
         Log.d("Marvel Hash", "successful-$hash")
+
+        val userInput = binding.searchText.getText().toString()
         Log.d("Marvel","User string $userInput")
 
         val url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=$userInput&limit=1&ts=$timestamp&apikey=$publicKey&hash=$hash"
@@ -240,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                 headers: Headers,
                 json: JsonHttpResponseHandler.JSON
             ) {
-                Log.d("Marvel JSON", "response successful $json")
+                Log.d("Marvel JSON", "query response successful $json")
 
                 val dataObject = json.jsonObject.getJSONObject("data")
                 Log.d("Marvel Data Object", "Marvel data $dataObject")
@@ -281,6 +197,29 @@ class MainActivity : AppCompatActivity() {
         }]
     }
 
+    private fun getNextQuery(button: Button, imageView: ImageView) {
+
+        button.setOnClickListener {
+
+           getCharacterQuery()
+
+            Glide.with(this)
+                .load(characterImageURL)
+                .fitCenter()
+                .into(imageView)
+            Log.d("Marvel", "MArvel after glide $characterImageURL")
+
+            binding.characterName.text = marvelName
+            binding.description.text = marvelDescription
+
+            //Set name and description
+            binding.characterName.text = marvelName
+            if (marvelDescription == "") {
+                marvelDescription = "No Available Description"
+            }
+            binding.description.text = marvelDescription
+        }
+    }
 
     private fun stringToMd5(input : String) : String{
         val md = MessageDigest.getInstance("MD5")
