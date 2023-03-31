@@ -36,9 +36,9 @@ My chosen API for this project is <a href="https://developer.marvel.com/">Marvel
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://github.com/gabrielaliera/Marvel_Character_Generator/blob/master/marvel-walkthrough.gif' title='Video Demo' width='300' heigth="500" alt='Video Demo' />
+GIF created with <a href="https://www.cockos.com/licecap/">LICEcap.</a> 
 
-GIF created with **your chosen GIF tool**
 
 ## Notes
 
