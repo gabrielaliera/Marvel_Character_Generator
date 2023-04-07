@@ -1,4 +1,4 @@
-# AND101 Project 5 - Choose Your Own API
+# Marvel Character Generator
 
 Submitted by: **Gabriela Liera**
 
